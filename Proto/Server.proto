@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package serve;
+
+service Server {
+
+rpc Fetch (FetchRequest) returns (stream reading) {}
+}
+
+message FetchRequest{
+string s1=1;
+}
+
+message reading{
+    string timestamp=1;
+    float meterusage=2;
+}
+
