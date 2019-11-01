@@ -16,7 +16,7 @@ class Client(tornado.web.RequestHandler):
 
     def get(self):
         self.render("index.html", function=self.post())
-        # self.run()
+
     def post(self):
         with grpc.insecure_channel('localhost:50050') as channel:
             stub = server_pb2_grpc.ServerStub(channel)
