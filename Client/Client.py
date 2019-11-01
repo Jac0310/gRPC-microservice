@@ -1,22 +1,66 @@
 from __future__ import print_function
 
 import grpc
-
-import logging
-
 import server_pb2_grpc
+
+from json import JSONEncoder
 
 import server_pb2
 
-class Client():
-    def run(self):
+import tornado.ioloop
+import tornado.web
+import tornado.escape
+import json
+
+class Client(tornado.web.RequestHandler):
+
+    def get(self):
+        self.render("index.html", function=self.post())
+        # self.run()
+    def post(self):
         with grpc.insecure_channel('localhost:50050') as channel:
             stub = server_pb2_grpc.ServerStub(channel)
             request = server_pb2.FetchRequest(s1="Test")
+            readings = []
             for reading in stub.Fetch(request):
-                print(reading.timestamp + ":" + reading.meterusage)
+                # json.append(formatresponse(reading.timestamp, reading.meterusage))
+
+                readings.append(reading)
+                # j = tornado.escape.json_encode(reading)
+                # json.append({
+                #     "measurement": "meterusage",
+                #     "time": reading.timestamp,
+                #     "fields": {
+                #         "meterusage": reading.meterusage
+                #     }
+                # })
+                # json.append(j)
+            # dic = {{}}
+            # dic.add("readings", json)
+            # self.response = dic
+            self.write(ReadingEncoder().encode(readings))
 
 
+class ReadingEncoder(JSONEncoder):
+    def default(self, object):
+        if isinstance(object, server_pb2.reading):
+            dic = {"timestamp": object.timestamp, "usage": object.meterusage}
+            return dic
+        else:
+            return json.JSONEncoder.default(self, object)
+
+def make_app():
+    return tornado.web.Application([
+        (r"/", Client),
+    ])
+
+# def formatresponse(time, usage)->str:
+#     return "{" + 'timestamp:  "{time}", usage:  "{use}"'.format(time=time, use=str(usage)) + "}"
 if __name__ == '__main__':
-    client = Client()
-    client.run()
+    app = make_app()
+    # http_server = tornado.httpserver.HTTPServer(app)
+    # http_server.listen(443)
+    # tornado.ioloop.IOLoop.instance().start()
+
+    app.listen(8888)
+    tornado.ioloop.IOLoop.current().start()
