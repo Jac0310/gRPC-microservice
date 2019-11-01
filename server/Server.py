@@ -3,6 +3,8 @@ import time
 
 import grpc
 
+import os
+
 import server_pb2_grpc
 
 import server_pb2
@@ -17,28 +19,29 @@ def read_data(filename):
         lines = f.readlines()[1:]
     return lines
 
+def format(line) -> str:
+    line = line.strip()
+    return line.split(",")
 
 class Server(server_pb2_grpc.ServerServicer):
 
-    def __init__(self, lines):
-        self.lines = lines
+    def __init__(self, data):
+        self.data = data
 
     def Fetch(self, request, context):
-        # with open(r"meterusage.csv") as f:
-        #     lines = f.readlines()[1:]
-
-        for line in self.lines:
-            line = line.split(",")
-            reading = self.getReading(line[0], float(line[1].strip()))
-            print (reading.timestamp + " : " + str(reading.meterusage))
+        for item in self.data:
+            item = format(item)
+            reading = self.getReading(item[0], float(item[1]))
             yield reading
 
     def getReading(self, timestamp, reading):
         return server_pb2.reading(timestamp=timestamp, meterusage=reading)
 
+
+
     def serve(self):
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-        server_pb2_grpc.add_ServerServicer_to_server(Server(self.lines), server)
+        server_pb2_grpc.add_ServerServicer_to_server(Server(self.data), server)
         server.add_insecure_port('localhost:50050')
         server.start()
         try:
@@ -49,7 +52,10 @@ class Server(server_pb2_grpc.ServerServicer):
 
 
 if __name__ == '__main__':
-    server = Server(read_data(r"meterusage.csv"))
+    # cwd = os.getcwd()
+    # files = os.listdir(cwd)  # Get all the files in that directory
+    # print("Files in %r: %s" % (cwd, files))
+    server = Server(read_data(r"server/meterusage.csv"))
     server.serve()
 
 

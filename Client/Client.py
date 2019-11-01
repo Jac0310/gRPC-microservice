@@ -23,21 +23,7 @@ class Client(tornado.web.RequestHandler):
             request = server_pb2.FetchRequest(s1="Test")
             readings = []
             for reading in stub.Fetch(request):
-                # json.append(formatresponse(reading.timestamp, reading.meterusage))
-
                 readings.append(reading)
-                # j = tornado.escape.json_encode(reading)
-                # json.append({
-                #     "measurement": "meterusage",
-                #     "time": reading.timestamp,
-                #     "fields": {
-                #         "meterusage": reading.meterusage
-                #     }
-                # })
-                # json.append(j)
-            # dic = {{}}
-            # dic.add("readings", json)
-            # self.response = dic
             self.write(ReadingEncoder().encode(readings))
 
 
