@@ -11,21 +11,25 @@ import tornado.web
 import tornado.escape
 import json
 
+
 class Client(tornado.web.RequestHandler):
 
     def get(self):
         self.render("index.html")
 
     def post(self):  # could be extended to send query to DB
+        result = {}
+        result['readings'] = self.getReadings()
+        self.write(ReadingEncoder().encode(result))
+
+    def getReadings(self):
         with grpc.insecure_channel('localhost:50050') as channel:
             stub = server_pb2_grpc.ServerStub(channel)
             request = server_pb2.FetchRequest(s1="Test")
             readings = []
             for reading in stub.Fetch(request):
                 readings.append(reading)
-            result = {}
-            result['readings'] = readings
-            self.write(json.dumps(ReadingEncoder().encode(result), sort_keys=True, indent=3))
+            return readings
 
 
 class ReadingEncoder(JSONEncoder):
@@ -36,13 +40,27 @@ class ReadingEncoder(JSONEncoder):
         else:
             return json.JSONEncoder.default(self, object)
 
+
 def make_app():
     return tornado.web.Application([
         (r"/", Client),
     ])
 
-if __name__ == '__main__':
+
+def create_client():
     app = make_app()
     http_server = tornado.httpserver.HTTPServer(app)
     http_server.listen(8888)
+    start_client()
+    return app
+
+
+def start_client():
     tornado.ioloop.IOLoop.instance().start()
+
+def stop_client():
+    tornado.ioloop.IOLoop.instance().stop()
+
+
+if __name__ == '__main__':
+    create_client()
