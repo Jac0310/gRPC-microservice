@@ -5,6 +5,8 @@ import server_pb2_grpc
 
 from json import JSONEncoder
 
+import tornado.websocket
+
 import server_pb2
 
 import tornado.ioloop
@@ -26,6 +28,16 @@ class Client(tornado.web.RequestHandler):
                 readings.append(reading)
             self.write(ReadingEncoder().encode(readings))
 
+class WSHandler(tornado.websocket.WebSocketHandler):
+    def open(self):
+        global clients
+        print("WebSocket opened...")
+        clients.add(self)
+
+    def on_close(self):
+        global clients
+        print("WebSocket closed...")
+        clients.remove(self)
 
 class ReadingEncoder(JSONEncoder):
     def default(self, object):
