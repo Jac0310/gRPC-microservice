@@ -6,9 +6,7 @@ class Database():
         # self.client = InfluxDBClient(host=host, port=port,
         #                                       username=username, password=password, database=dbname)
         self.client = InfluxDBClient(database=dbname)
-
-        # self.client = InfluxDBClient(host='127.0.0.1', database=dbname, use_udp=True, udp_port=4444)
-        self.client.create_database(dbname)
+        self.client.create_database(dbname) # can't connect ?
         self.client.switch_database(dbname)
         print(self.client.get_list_database())
         self.populatedb(filename)

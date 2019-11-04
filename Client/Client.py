@@ -4,18 +4,12 @@ import grpc
 import server_pb2_grpc
 
 from json import JSONEncoder
-
-import tornado.websocket
-
 import server_pb2
 
 import tornado.ioloop
 import tornado.web
 import tornado.escape
 import json
-
-clients = set()
-
 
 class Client(tornado.web.RequestHandler):
 
@@ -29,7 +23,9 @@ class Client(tornado.web.RequestHandler):
             readings = []
             for reading in stub.Fetch(request):
                 readings.append(reading)
-            self.write(ReadingEncoder().encode(readings))
+            result = {}
+            result['readings'] = readings
+            self.write(json.dumps(ReadingEncoder().encode(result), sort_keys=True, indent=3))
 
 
 class ReadingEncoder(JSONEncoder):
@@ -45,9 +41,7 @@ def make_app():
         (r"/", Client),
     ])
 
-
 if __name__ == '__main__':
-
     app = make_app()
     http_server = tornado.httpserver.HTTPServer(app)
     http_server.listen(8888)
