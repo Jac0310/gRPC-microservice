@@ -15,9 +15,9 @@ import json
 class Client(tornado.web.RequestHandler):
 
     def get(self):
-        self.render("index.html", function=self.post())
+        self.render("index.html")
 
-    def post(self):
+    def post(self): #could be extended to send query to DB
         with grpc.insecure_channel('localhost:50050') as channel:
             stub = server_pb2_grpc.ServerStub(channel)
             request = server_pb2.FetchRequest(s1="Test")
@@ -44,9 +44,9 @@ def make_app():
 #     return "{" + 'timestamp:  "{time}", usage:  "{use}"'.format(time=time, use=str(usage)) + "}"
 if __name__ == '__main__':
     app = make_app()
-    # http_server = tornado.httpserver.HTTPServer(app)
-    # http_server.listen(443)
-    # tornado.ioloop.IOLoop.instance().start()
+    http_server = tornado.httpserver.HTTPServer(app)
+    http_server.listen(8888)
+    tornado.ioloop.IOLoop.instance().start()
 
-    app.listen(8888)
-    tornado.ioloop.IOLoop.current().start()
+    # app.listen(8888)
+    # tornado.ioloop.IOLoop.current().start()
