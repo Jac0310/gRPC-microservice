@@ -16,7 +16,7 @@
         <tr style="height: 33.33%;">
             <td></td>
             <td>
-                <form action="/result" id="submit" method="post">
+                <form action="/" id="submit" method="post">
                     <button type="submit" id="fetch" title="Request time-based electricity consumption data">Request Data</button>
                 </form>
             </td>
@@ -28,22 +28,20 @@
             <td></td>
         </tr>
     </Table>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<script type="text/javascript">
-        $(document).ready(function() {
-            var ws;
-            // open WebSocket for getting the results
-            ws = new WebSocket("ws://" + location.host + "/ws");
-            ws.onmessage = function(evt) {
-                $("#display").append(evt.data + "<br>");
-            };
-            ws.onclose = function(evt) {alert("Server connection terminated");};
-
-            $("#fetch").click(function(evt) {
-                evt.preventDefault();
-                $.post("/", $("#submit").serialize());
-            });
-        });
-    </script>
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>-->
+<!--<script type="text/javascript">-->
+<!--        $(document).ready(function() {-->
+<!--            var ws;-->
+<!--            // open WebSocket for getting the results-->
+<!--            ws = new WebSocket("ws://" + location.host + "/ws");-->
+<!--            ws.onmessage = function(evt) {-->
+<!--                $("#display").append(evt.data + "<br>");-->
+<!--            };-->
+<!--            $("#fetch").click(function(evt) {-->
+<!--                evt.preventDefault();-->
+<!--                $.post("/", $("#submit").serialize());-->
+<!--            });-->
+<!--        });-->
+<!--</script>-->
 </body>
 </html>
