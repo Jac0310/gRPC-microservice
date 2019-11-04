@@ -3,11 +3,11 @@ import time
 
 import grpc
 
-import os
-
 import server_pb2_grpc
 
 import server_pb2
+
+from decimal import Decimal
 
 filename = r"meterusage.csv"
 
@@ -24,14 +24,16 @@ def format(line) -> str:
     return line.split(",")
 
 class Server(server_pb2_grpc.ServerServicer):
-
     def __init__(self, data):
         self.data = data
 
     def Fetch(self, request, context):
+        #request not corrently used but could be extended to query InfluxDB
         for item in self.data:
             item = format(item)
-            reading = self.getReading(item[0], float(item[1]))
+            n = item[1]
+            n = float(item[1])
+            reading = self.getReading(item[0], round(float(item[1]), 2))
             yield reading
 
     def getReading(self, timestamp, reading):
@@ -52,10 +54,7 @@ class Server(server_pb2_grpc.ServerServicer):
 
 
 if __name__ == '__main__':
-    # cwd = os.getcwd()
-    # files = os.listdir(cwd)  # Get all the files in that directory
-    # print("Files in %r: %s" % (cwd, files))
-    server = Server(read_data(r"server/meterusage.csv"))
+    server = Server(read_data(r"meterusage.csv"))
     server.serve()
 
 

@@ -31,7 +31,7 @@ class Client(tornado.web.RequestHandler):
 class ReadingEncoder(JSONEncoder):
     def default(self, object):
         if isinstance(object, server_pb2.reading):
-            dic = {"timestamp": object.timestamp, "usage": object.meterusage}
+            dic = {"timestamp": object.timestamp, "usage": round(object.meterusage, 2)}
             return dic
         else:
             return json.JSONEncoder.default(self, object)
