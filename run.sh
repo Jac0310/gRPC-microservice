@@ -1,2 +1,2 @@
-exec python3 server/Server.py &
-exec python3 Client/Client.py
+exec python3 Server.py &
+exec python3 Client.py

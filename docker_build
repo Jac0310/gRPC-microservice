@@ -1,8 +1,0 @@
-FROM python:3
-ADD Client/Client.py /
-ADD server/Server.py /
-RUN pip install grpcio
-RUN pip install grpcio-tools
-RUN pip install tornado
-RUN pip install json
-CMD ["run.sh"]

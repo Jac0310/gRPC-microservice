@@ -7,7 +7,7 @@ import server_pb2_grpc
 
 import server_pb2
 
-filename = r"server/meterusage.csv"
+filename = r"meterusage.csv"
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
