@@ -7,7 +7,7 @@ import server_pb2_grpc
 
 import server_pb2
 
-filename = r"meterusage.csv"
+filename = r"server/meterusage.csv"
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
@@ -52,11 +52,8 @@ class Server(server_pb2_grpc.ServerServicer):
         self.running = False
 
 def get_server():
-    return Server(read_data(r"meterusage.csv"))
+    return Server(read_data(filename))
 
 
 if __name__ == '__main__':
     get_server().serve()
-
-
-
