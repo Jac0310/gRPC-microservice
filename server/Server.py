@@ -40,7 +40,7 @@ class Server(server_pb2_grpc.ServerServicer):
     def serve(self):
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
         server_pb2_grpc.add_ServerServicer_to_server(Server(self.data), server)
-        server.add_insecure_port('localhost:50050')
+        server.add_insecure_port('127.0.0.1:50050')
         server.start()
         try:
             while self.running:

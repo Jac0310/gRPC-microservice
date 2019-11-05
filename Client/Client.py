@@ -23,7 +23,7 @@ class Client(tornado.web.RequestHandler):
         self.write(ReadingEncoder().encode(result))
 
     def getReadings(self):
-        with grpc.insecure_channel('localhost:50050') as channel:
+        with grpc.insecure_channel('127.0.0.1:50050') as channel:
             stub = server_pb2_grpc.ServerStub(channel)
             request = server_pb2.FetchRequest(s1="Test")
             readings = []
