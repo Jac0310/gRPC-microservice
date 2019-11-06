@@ -10,6 +10,6 @@ add meterusage.csv /usr/src/app/Server/meterusage.csv
 RUN pip install grpcio
 RUN pip install grpcio-tools
 RUN pip install tornado
-# RUN chmod 777 /usr/src/app/run.sh
+
 CMD ["python","Server.py"]
 
