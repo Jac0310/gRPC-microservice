@@ -1,7 +1,9 @@
-from server.Server import *
+
 from Client.Client import *
 
 import threading
+
+from Server import get_server
 
 app = create_client()
 server = get_server()
