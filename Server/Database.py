@@ -1,10 +1,10 @@
 from datetime import datetime
 from influxdb import InfluxDBClient
 
+# This class is not currently used. Stephen said use of InfluxDB would be a 'nice to have', not a necessity.
+# Currently getting network refused error on line 9 which I would work on debugging time permitting
 class Database():
     def __init__(self, filename, host, port, username, password, dbname):
-        # self.client = InfluxDBClient(host=host, port=port,
-        #                                       username=username, password=password, database=dbname)
         self.client = InfluxDBClient(database=dbname)
         self.client.create_database(dbname) # can't connect ?
         self.client.switch_database(dbname)
