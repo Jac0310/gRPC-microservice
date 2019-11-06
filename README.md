@@ -11,7 +11,7 @@ python -m grpc.tools.protoc  --python_out=. --grpc_python_out=. --proto_path=. s
 
 The diagram below describes the overall structure of the application: 
 
-![design](images/pasted image 0.png)
+![design](images/pasted-image-0.png)
 
 The gRPC client also functions as a tornado HTTP server.
 Actually in my implementation the HTTP GET renders a UI, simply a button currently but could be extended to allow querying of specific times within the time-series data. 
