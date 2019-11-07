@@ -1,5 +1,5 @@
 # gRPC-microservice
-Language-independent gRPC-based microservice
+Language-independent gRPC-based microservice, for serving time based electricity consumption data.
 
 ## Design
 The central tenet of gRPC is the remote proxy pattern described below.

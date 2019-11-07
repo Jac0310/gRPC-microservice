@@ -1,5 +1,5 @@
 
-from Client.Client import *
+from Client.Client import create_client
 
 import threading
 
