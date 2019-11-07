@@ -1,7 +1,7 @@
 # gRPC-microservice
 Language-independent gRPC-based microservice, for serving time based electricity consumption data.
 
-## Design
+## Design and Implementation
 The central tenet of gRPC is the remote proxy pattern described below.
 
 ![gRPC](images/gRPC-1.png)
@@ -24,4 +24,4 @@ There are a basic suite of tests in Server/Tests.py. They are far from exhaustiv
 Clone repository and run `$docker build <path>/gRPC-microservice` then `$docker run -p 8888:8888 <imagename>` and go to `localhost:8888`. This runs Client and Server in  the same container. I have created `Dockerfile`s to allow seperate Server and Client containers, but I would need to progress beyond localhost to get these to communicate.
 
 ## Issues 
-The Server/Database.py implementation of an InfluxDB is incomplete and not in use. I ran into some connection issues, however I was told serving the data on an InfluxDB was unnecessary for this task. It is something I will look into in the future as I get to grips with this technology.
+The Server/Database.py implementation of serving the data using InfluxDB is incomplete and not in use. I ran into some connection issues, however I was told this was unnecessary for this task. It is something I will look into in the future as I get to grips with this technology.
