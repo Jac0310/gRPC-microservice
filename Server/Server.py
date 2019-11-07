@@ -11,18 +11,19 @@ filename = r"meterusage.csv"
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
-
+#Helper method for reading CSV data
 def read_data(filename):
     with open(filename) as f:
         lines = f.readlines()[1:]
     return [format(line) for line in lines]
-
+#Helper method for formatting CSV data
 def format(line) -> str:
     line = line.strip()
     line = line.split(",")
     line[1] = round(float(line[1]), 2)
     return line
 
+#This class functions as a gRPC server
 class Server(server_pb2_grpc.ServerServicer):
     def __init__(self, data):
         self.data = data

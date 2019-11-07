@@ -11,7 +11,8 @@ import tornado.web
 import tornado.escape
 import json
 
-
+#This class recieves HTTP requests from the rendered HTML page, and requests the data from the gRPC server
+#Then writes the result in JSON format to the page
 class Client(tornado.web.RequestHandler):
 
     def get(self):
@@ -31,7 +32,7 @@ class Client(tornado.web.RequestHandler):
                 readings.append(reading)
             return readings
 
-
+#This extension of JSONEncoder allows encoding of electricity readings
 class ReadingEncoder(JSONEncoder):
     def default(self, object):
         if isinstance(object, server_pb2.reading):
