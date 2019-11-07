@@ -52,15 +52,9 @@ def create_client():
     http_server = tornado.httpserver.HTTPServer(app)
     http_server.listen(8888)
     start_client()
-    return app
-
 
 def start_client():
     tornado.ioloop.IOLoop.instance().start()
-
-def stop_client():
-    tornado.ioloop.IOLoop.instance().stop()
-
 
 if __name__ == '__main__':
     create_client()

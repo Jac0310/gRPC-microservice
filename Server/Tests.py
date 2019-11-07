@@ -5,8 +5,9 @@ import threading
 
 from Server import get_server
 
-app = create_client()
+create_client()
 server = get_server()
+
 
 
 def setUp():
@@ -35,6 +36,5 @@ if __name__ == '__main__':
     testServer1(server)
     testServer2(server)
     testServerClient()
-    stop_client()
-    server.stop()
+
 
