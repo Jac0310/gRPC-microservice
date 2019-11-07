@@ -21,7 +21,7 @@ The client then renders the returned stream of readings (time series) into a JSO
 There are a basic suite of tests in Server/Tests.py. They are far from exhaustive and aim to test the overall functionality. As this task was primarily about investigating new technologies than implementing lots of functionality, I took a less TDD/unit testing approach than I might usually do.
 
 ## Running
-Clone repository and run `$docker build <path>/gRPC-microservice` then `$docker run -p 8888:8888 <imagename>` and go to `localhost:8888`. This runs Client and Server in  the same container. I have created `Dockerfile`s to allow seperate Server and Client containers, but I would need to progress beyond localhost to get these to communicate.
+Clone repository and run `$docker build <path>/gRPC-microservice` then `$docker run -p 8888:8888 <imagename>` and go to `localhost:8888`. This runs Client and Server in  the same container. I have created `Dockerfile`s to allow seperate Server and Client containers, but I would ideally move beyond localhost before getting these to communicate.
 
 ## Issues 
 The Server/Database.py implementation of serving the data using InfluxDB is incomplete and not in use. I ran into some connection issues, however I was told this was unnecessary for this task. It is something I will look into in the future as I get to grips with this technology.
